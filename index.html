@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+    <meta name="description" content="Deadline Clock" />
+    <meta name="keywords" content="deadline,clock,timer,countdown" />
+    <meta name="author" content="Omer Faruk Kocaaga">
+    <meta name="robots" content="index, follow">
+    <meta name="revisit-after" content="3 month">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<script src="js/moment.js"></script>
+	<script src="js/js-cookie.js"></script>
+    <link rel="icon" type="image/png" href="assets/img/favicon.png">
+	<link rel="stylesheet" type="text/css" href="style/normalize.css">
+	<link rel="stylesheet" type="text/css" href="style/style.css">
+	<title>Deadliner</title>
+</head>
+<body>
+
+	<header>
+        <div class="logo">
+            <div class="headline">DEADLINER</div>
+        </div>
+        <span id="myBtn" class="right">SET DEADLINE</span>
+        <span id="discardDeadline" onclick="afterDiscard()">DISCARD</span>
+    </header>
+
+    <div id="loader"></div>
+    
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="actual-clock" id="time">LOADING...</div>
+            <div class="selectDiv">
+                <select id="userHour" onchange="getUserValues()">  
+                    <option selected="selected">Hour</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option> 
+                    <option value="4">4</option>      
+                    <option value="5">5</option> 
+                    <option value="6">6</option> 
+                    <option value="7">7</option> 
+                    <option value="8">8</option> 
+                    <option value="9">9</option> 
+                    <option value="10">10</option> 
+                    <option value="11">11</option> 
+                    <option value="12">12</option> 
+                    <option value="13">13</option> 
+                    <option value="14">14</option> 
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                </select>
+                <select id="userMinute" onchange="getUserValues()">  
+                    <option selected="selected">Minute</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option> 
+                    <option value="4">4</option>      
+                    <option value="5">5</option> 
+                    <option value="6">6</option> 
+                    <option value="7">7</option> 
+                    <option value="8">8</option> 
+                    <option value="9">9</option> 
+                    <option value="10">10</option> 
+                    <option value="11">11</option> 
+                    <option value="12">12</option> 
+                    <option value="13">13</option> 
+                    <option value="14">14</option> 
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+                    <option value="25">25</option>
+                    <option value="26">26</option>
+                    <option value="27">27</option> 
+                    <option value="28">28</option>      
+                    <option value="29">29</option> 
+                    <option value="30">30</option> 
+                    <option value="31">31</option> 
+                    <option value="32">32</option> 
+                    <option value="33">33</option> 
+                    <option value="34">34</option> 
+                    <option value="35">35</option> 
+                    <option value="36">36</option> 
+                    <option value="37">37</option> 
+                    <option value="38">38</option> 
+                    <option value="39">39</option>
+                    <option value="40">40</option>
+                    <option value="41">41</option>
+                    <option value="42">42</option>
+                    <option value="43">43</option>
+                    <option value="44">44</option>
+                    <option value="45">45</option>
+                    <option value="46">46</option>
+                    <option value="47">47</option>
+                    <option value="48">48</option>
+                    <option value="49">49</option>
+                    <option value="50">50</option>
+                    <option value="51">51</option> 
+                    <option value="52">52</option>      
+                    <option value="53">53</option> 
+                    <option value="54">54</option> 
+                    <option value="55">55</option> 
+                    <option value="56">56</option> 
+                    <option value="57">57</option> 
+                    <option value="58">58</option> 
+                    <option value="59">59</option> 
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div id="done" class="message-modal">
+        <div class="message-modal-content">
+            <span class="closeMessage">&times;</span>
+            <div class="message">IT'S OVER!</div>
+        </div>
+    </div>
+
+    <div id="info" class="info-modal">
+        <div class="info-modal-content">
+            <span onclick="closeInfo()" class="closeInfo">&times;</span>
+            <div class="info-message">INFO</div>
+            <div class="the-info">
+                <p>Deadliner is an ongoing, experimental project about clocks and deadlines.<br><br>
+
+This project was an assignment from data visualization class at <a href="http://vcd.bilgi.edu.tr" target="_blank">Bilgi VCD</a>. Main goal of assignment is designing a clock without using traditional clock face. It was forbidden to use letters, numbers, clock hands and any speech voice.<br><br>
+
+I designed a <a href="assets/img/prototype.pdf" target="_blank">prototype</a> and developed a <a href="http://omerkocaaga.github.io/barClock" target="_blank">working version</a>  for assignment.<br><br>
+
+In this version you have 1440 rectangle, which represents 1440 minutes in 1 day. Minutes grouped in 24 columns, which represents hours. If you set a deadline, you will see, how many times you have in visually. So, dark yellow color represents time you have and light color represents time you passed or couldn't use because of deadline.<br><br>
+
+If you have suggestions, reviews or bug reports; please feel free to <a href="mailto:omerkocaaga@icloud.com">contact me</a>.</p>
+            </div>
+        </div>
+    </div>
+
+    <section id="clock"></section>
+
+    <footer>
+        <div class="blink" ></div>
+        <div id="infoButton" class="info">INFO</div>
+    </footer>
+
+    <!-- Global Site Tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-106462646-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments)};
+        gtag('js', new Date());
+
+        gtag('config', 'UA-106462646-1');
+    </script>
+
+    <script src="js/script.js" type="text/javascript" charset="utf-8" async defer></script>
+
+</body>
+</html>
